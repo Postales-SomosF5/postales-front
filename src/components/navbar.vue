@@ -1,85 +1,85 @@
 <template>
   <header class="navbar">
-    <div class="logo">MyLogo</div>
+    <div class="logo">
+      <img :src="logo" alt="Logo" />
+    </div>
     <nav class="menu">
       <a href="#">Home</a>
       <button class="registro-btn" @click="openRegister">Registro</button>
       <button class="login-btn" @click="openLogin">Login</button>
     </nav>
 
-  <!-- Register Modal -->
-<div v-if="showRegister" class="modal">
-  <div class="modal-content">
-    <span class="close" @click="closeModals">&times;</span>
-    <h2>Registro Form</h2>
+    <!-- Register Modal -->
+    <div v-if="showRegister" class="modal" @click.self="closeModals">
+      <div class="modal-content">
+        <span class="close" @click="closeModals">&times;</span>
+        <h2>Registro Form</h2>
 
-    <label for="nombre">Nombre</label>
-    <input id="nombre" type="text" placeholder="Nombre" />
+        <label for="nombre">Nombre</label>
+        <input id="nombre" type="text" placeholder="Nombre" v-model="registerForm.nombre" />
 
-   <label for="apellido">Apellido</label>
-    <input id="apellido" type="text" placeholder="Apellido" />
+        <label for="apellido">Apellido</label>
+        <input id="apellido" type="text" placeholder="Apellido" v-model="registerForm.apellido" />
 
-    <label for="dedicacion">¿A qué te dedicas en Peñascal Kooperatiba?</label>
-    <select id="dedicacion">
-      <option disabled selected>Selecciona una opción</option>
-      <option>Estudio</option>
-      <option>Trabajo</option>
-    </select>
+        <label for="dedicacion">¿A qué te dedicas en Peñascal Kooperatiba?</label>
+        <select id="dedicacion" v-model="registerForm.dedicacion">
+          <option disabled value="">Selecciona una opción</option>
+          <option>Estudio</option>
+          <option>Trabajo</option>
+        </select>
 
-    <label for="centro">¿En qué centro formativo sueles estar?</label>
-    <select id="centro">
-      <option disabled selected>Selecciona un centro</option>
-      <option>Boluetabarri / Modo - Comercio</option>
-      <option>Boluetabarri / Informática</option>
-      <option>Boluetabarri / Climatización - Fontanería</option>
-      <option>Boluetabarri / Madera</option>
-      <option>Boluetabarri / Hostalería</option>
-      <option>Boluetabarri / Administración</option>
-      <option>Boluetabarri / Complementaria</option>
-      <option>Montaño / Hostalería</option>
-      <option>Montaño / Construcción - Electricidad</option>
-      <option>Belategi / Metal</option>
-      <option>Tolosa</option>
-      <option>Sarrikue</option>
-      <option>Markina</option>
-      <option>Errenteria</option>
-      <option>Intervención Social Bizkaia</option>
-      <option>EPA Gipuzkoa</option>
-      <option>EPA Bizkaia</option>
-    </select>
+        <label for="centro">¿En qué centro formativo sueles estar?</label>
+        <select id="centro" v-model="registerForm.centro">
+          <option disabled value="">Selecciona un centro</option>
+          <option>Boluetabarri / Modo - Comercio</option>
+          <option>Boluetabarri / Informática</option>
+          <option>Boluetabarri / Climatización - Fontanería</option>
+          <option>Boluetabarri / Madera</option>
+          <option>Boluetabarri / Hostalería</option>
+          <option>Boluetabarri / Administración</option>
+          <option>Boluetabarri / Complementaria</option>
+          <option>Montaño / Hostalería</option>
+          <option>Montaño / Construcción - Electricidad</option>
+          <option>Belategi / Metal</option>
+          <option>Tolosa</option>
+          <option>Sarrikue</option>
+          <option>Markina</option>
+          <option>Errenteria</option>
+          <option>Intervención Social Bizkaia</option>
+          <option>EPA Gipuzkoa</option>
+          <option>EPA Bizkaia</option>
+        </select>
 
-    <label for="linguistico">¿Perteneces a un grupo de refuerzo lingüístico?</label>
-    <select id="linguistico">
-      <option disabled selected>Selecciona una opción</option>
-      <option>Sí</option>
-      <option>No</option>
-    </select>
+        <label for="linguistico">¿Perteneces a un grupo de refuerzo lingüístico?</label>
+        <select id="linguistico" v-model="registerForm.linguistico">
+          <option disabled value="">Selecciona una opción</option>
+          <option>Sí</option>
+          <option>No</option>
+        </select>
 
-    <button class="registro-btn">Registrar</button>
+        <button class="registro-btn" @click="submitRegister">Registrar</button>
 
-    <p class="switch-text">
-      ¿Ya tienes cuenta?
-      <a href="#" @click.prevent="switchToLogin">Login</a>
-    </p>
-  </div>
-</div>
-
+        <p class="switch-text">
+          ¿Ya tienes cuenta?
+          <a href="#" @click.prevent="switchToLogin">Login</a>
+        </p>
+      </div>
+    </div>
 
     <!-- Login Modal -->
-    <div v-if="showLogin" class="modal">
+    <div v-if="showLogin" class="modal" @click.self="closeModals">
       <div class="modal-content">
         <span class="close" @click="closeModals">&times;</span>
         <h2>Login Form</h2>
 
         <label for="login-email">Email</label>
-        <input id="login-email" type="email" placeholder="Email" />
+        <input id="login-email" type="email" placeholder="Email" v-model="loginForm.email" />
 
         <label for="login-password">Password</label>
-        <input id="login-password" type="password" placeholder="Password" />
+        <input id="login-password" type="password" placeholder="Password" v-model="loginForm.password" />
 
-        <button class="login-btn">Login</button>
+        <button class="login-btn" @click="submitLogin">Login</button>
 
-        <!-- Switch to Registro -->
         <p class="switch-text">
           ¿No tienes cuenta?
           <a href="#" @click.prevent="switchToRegister">Registro</a>
@@ -94,32 +94,74 @@ export default {
   name: 'Navbar',
   data() {
     return {
+      logo: 'https://your-logo-url.com/logo.png',  // Apni logo ki url yahan lagao
       showRegister: false,
       showLogin: false,
+      registerForm: {
+        nombre: '',
+        apellido: '',
+        dedicacion: '',
+        centro: '',
+        linguistico: ''
+      },
+      loginForm: {
+        email: '',
+        password: ''
+      }
     };
   },
   methods: {
     openRegister() {
       this.showRegister = true;
       this.showLogin = false;
+      this.resetForms();
     },
     openLogin() {
       this.showLogin = true;
       this.showRegister = false;
+      this.resetForms();
     },
     closeModals() {
       this.showLogin = false;
       this.showRegister = false;
+      this.resetForms();
     },
     switchToLogin() {
       this.showRegister = false;
       this.showLogin = true;
+      this.resetForms();
     },
     switchToRegister() {
       this.showLogin = false;
       this.showRegister = true;
+      this.resetForms();
     },
-  },
+    resetForms() {
+      this.registerForm = {
+        nombre: '',
+        apellido: '',
+        dedicacion: '',
+        centro: '',
+        linguistico: ''
+      };
+      this.loginForm = {
+        email: '',
+        password: ''
+      };
+    },
+    submitRegister() {
+      // Yahan validation ya API call add kar sakte hain
+      console.log('Registro data:', this.registerForm);
+      alert('Registro enviado');
+      this.closeModals();
+    },
+    submitLogin() {
+      // Yahan validation ya API call add kar sakte hain
+      console.log('Login data:', this.loginForm);
+      alert('Login enviado');
+      this.closeModals();
+    }
+  }
 };
 </script>
 
@@ -212,10 +254,10 @@ export default {
 
 .modal-content {
   background: white;
-  padding: 40px 30px; /* pehle 30px tha, ab zyada padding */
+  padding: 40px 30px; 
   border-radius: 12px;
-  width: 400px; /* pehle 320px tha */
-  text-align: left; /* center se left aligned */
+  width: 400px; 
+  text-align: left; 
   position: relative;
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -227,47 +269,31 @@ export default {
   color: #333;
 }
 
-
-.modal-content input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.modal-content input:hover {
-  border-color: #28a745;
-}
-
-.modal-content input:focus {
-  border-color: #fd7e14;
-  box-shadow: 0 0 5px #fd7e14;
-  outline: none;
-}
+.modal-content input,
 .modal-content select {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
   border-radius: 6px;
   border: 1px solid #ccc;
-  background-color: white;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-select {
-  max-height: 200px;   /* dropdown ka max height */
-  overflow-y: auto;    /* scroll vertical agar zyada items hon */
+  background-color: white;
 }
 
+.modal-content input:hover,
 .modal-content select:hover {
   border-color: #28a745;
 }
 
+.modal-content input:focus,
 .modal-content select:focus {
   border-color: #fd7e14;
   box-shadow: 0 0 5px #fd7e14;
   outline: none;
+}
+
+.logo img {
+  height: 40px;
 }
 
 /* Close Button */
