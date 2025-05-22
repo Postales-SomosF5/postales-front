@@ -84,7 +84,7 @@ color: white;
 }
 
 .logo:hover {
-  transform: scale(1.05); /* thoda zoom on hover (optional) */
+  transform: scale(1.05);
 }
 
 .menu {
