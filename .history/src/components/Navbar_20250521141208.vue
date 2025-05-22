@@ -92,7 +92,6 @@
 </template>
 
 <script >
-import logo from '../assets/logo-header-transparent.png';
 export default {
   
   name: 'Navbar',
