@@ -1,7 +1,7 @@
 <template>
   <header class="navbar">
   <div class="logo">
-  <img :src="logo" alt="Logo" />
+ <img :src="logo" alt="Logo" />
    </div>
     <nav class="menu">
       <a href="#">Home</a>
@@ -92,8 +92,7 @@
 </template>
 
 <script >
-import logo from '../assets/logo_header_transparent.png';
-
+import logo from '../assets/logo-header-transparent.png';
 export default {
   
   name: 'Navbar',
