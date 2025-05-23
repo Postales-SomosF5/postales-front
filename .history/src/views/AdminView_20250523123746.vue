@@ -18,34 +18,34 @@
 
     <div v-if="usuariosFiltrados.length" class="tabla-usuarios">
       <h3>Usuarios - {{ selectedCentro }} / {{ selectedSector }}</h3>
-     <table>
-  <thead>
-    <tr>
-      <th>Seleccionar</th>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>Centro</th>
-      <th>Refuerzo lingüístico</th>
-      <th>Intereses</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
-         <td>
-        <input 
-          type="checkbox" 
-          :value="usuario.id" 
-          v-model="usuariosSeleccionados"
-        />
-      </td>
-      <td>{{ usuario.nombre }}</td>
-      <td>{{ usuario.apellido }}</td>
-      <td>{{ usuario.centro }}</td>
-      <td>{{ usuario.refuerzo }}</td>
-      <td>{{ usuario.intereses }}</td>
-    </tr>
-  </tbody>
-</table>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Centro</th>
+            <th>Refuerzo lingüístico</th>
+            <th>Intereses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellido }}</td>
+            <td>{{ usuario.centro }}</td>
+            <td>{{ usuario.refuerzo }}</td>
+            <td>
+              <span
+                v-for="interes in usuario.intereses.split(',')"
+                :key="interes"
+                class="tag"
+              >
+                {{ interes.trim() }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <p v-else class="info">Selecciona centro y sector para mostrar usuarios.</p>
@@ -55,25 +55,14 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-// Centros disponibles
-const centros = [
-  'Boluetabarri', 'Montaño', 'Belategi', 'Tolosa', 'Sarrikue',
-  'Markina', 'Errenteria', 'Intervención Social Bizkaia',
-  'EPA Gipuzkoa', 'EPA Bizkaia'
-]
+const centros = ['Boluetabarri', 'Montaño', 'Belategi']
 
-// Sectores por centro
 const sectoresPorCentro = {
-  Boluetabarri: ['Modo - Comercio', 'Informática', 'Climatización - Fontanería', 'Madera', 'Hostalería', 'Administración', 'Complementaria'],
-  Montaño: ['Hostalería', 'Construcción - Electricidad'],
-  Belategi: ['Metal'],
-  // Otros centros con sectores vacíos
-  Tolosa: [], Sarrikue: [], Markina: [], Errenteria: [],
-  'Intervención Social Bizkaia': [], 'EPA Gipuzkoa': [], 'EPA Bizkaia': []
+  Boluetabarri: ['Modo - Comercio', 'Informática'],
+  Montaño: ['Hostalería'],
+  Belategi: ['Metal']
 }
-const usuariosSeleccionados = ref([])
 
-// Usuarios de ejemplo
 const usuarios = ref([
   {
     id: 1,
@@ -101,30 +90,21 @@ const usuarios = ref([
     sector: 'Metal',
     refuerzo: 'Sí',
     intereses: 'Soldadura, maquinaria'
-  },
-  {
-    id: 4,
-    nombre: 'Ibai',
-    apellido: 'Etxeberria',
-    centro: 'Tolosa',
-    sector: '',
-    refuerzo: 'No',
-    intereses: 'Administración, informática'
   }
 ])
-// Estado del formulario
+
 const selectedCentro = ref('')
 const selectedSector = ref('')
 
-// Sectores según centro seleccionado
-const sectoresFiltrados = computed(() => {
-  return selectedCentro.value ? sectoresPorCentro[selectedCentro.value] || [] : []
-})
+const sectoresFiltrados = computed(() =>
+  selectedCentro.value ? sectoresPorCentro[selectedCentro.value] || [] : []
+)
 
-// Lista de usuarios filtrados
 const usuariosFiltrados = computed(() => {
   if (!selectedCentro.value || !selectedSector.value) return []
-  return usuarios.value.filter(u => u.centro === selectedCentro.value && u.sector === selectedSector.value)
+  return usuarios.value.filter(
+    u => u.centro === selectedCentro.value && u.sector === selectedSector.value
+  )
 })
 
 const resetSector = () => {
@@ -144,7 +124,7 @@ const resetSector = () => {
 }
 
 h2, h3 {
-  color: rgb(5, 90, 12);
+  color: #1f2937;
   margin-bottom: 20px;
 }
 
@@ -157,8 +137,7 @@ form {
 
 label {
   font-weight: 600;
-   color:;
-  margin-right: 8px;
+  color: rgb(0, 141, 12);
 }
 
 select {
@@ -197,7 +176,7 @@ th, td {
 
 th {
   background-color: #eef2ff;
-  color:  rgb(0, 141, 12);
+  color: rgb(0, 141, 12);
   font-weight: 600;
 }
 
@@ -213,6 +192,16 @@ tr:hover {
   color: #6b7280;
   font-style: italic;
   margin-top: 20px;
+}
+
+.tag {
+  display: inline-block;
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 4px 8px;
+  margin: 2px;
+  border-radius: 6px;
+  font-size: 0.85rem;
 }
 </style>
 

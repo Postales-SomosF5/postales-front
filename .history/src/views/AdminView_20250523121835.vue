@@ -18,34 +18,22 @@
 
     <div v-if="usuariosFiltrados.length" class="tabla-usuarios">
       <h3>Usuarios - {{ selectedCentro }} / {{ selectedSector }}</h3>
-     <table>
-  <thead>
-    <tr>
-      <th>Seleccionar</th>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>Centro</th>
-      <th>Refuerzo lingüístico</th>
-      <th>Intereses</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
-         <td>
-        <input 
-          type="checkbox" 
-          :value="usuario.id" 
-          v-model="usuariosSeleccionados"
-        />
-      </td>
-      <td>{{ usuario.nombre }}</td>
-      <td>{{ usuario.apellido }}</td>
-      <td>{{ usuario.centro }}</td>
-      <td>{{ usuario.refuerzo }}</td>
-      <td>{{ usuario.intereses }}</td>
-    </tr>
-  </tbody>
-</table>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Dedicación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellido }}</td>
+            <td>{{ usuario.dedicacion }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <p v-else class="info">Selecciona centro y sector para mostrar usuarios.</p>
@@ -71,47 +59,15 @@ const sectoresPorCentro = {
   Tolosa: [], Sarrikue: [], Markina: [], Errenteria: [],
   'Intervención Social Bizkaia': [], 'EPA Gipuzkoa': [], 'EPA Bizkaia': []
 }
-const usuariosSeleccionados = ref([])
 
 // Usuarios de ejemplo
 const usuarios = ref([
-  {
-    id: 1,
-    nombre: 'Ane',
-    apellido: 'Gómez',
-    centro: 'Boluetabarri',
-    sector: 'Modo - Comercio',
-    refuerzo: 'Sí',
-    intereses: 'Moda, ventas, comunicación'
-  },
-  {
-    id: 2,
-    nombre: 'Jon',
-    apellido: 'Sánchez',
-    centro: 'Montaño',
-    sector: 'Hostalería',
-    refuerzo: 'No',
-    intereses: 'Cocina, atención al cliente'
-  },
-  {
-    id: 3,
-    nombre: 'Lorea',
-    apellido: 'Ruiz',
-    centro: 'Belategi',
-    sector: 'Metal',
-    refuerzo: 'Sí',
-    intereses: 'Soldadura, maquinaria'
-  },
-  {
-    id: 4,
-    nombre: 'Ibai',
-    apellido: 'Etxeberria',
-    centro: 'Tolosa',
-    sector: '',
-    refuerzo: 'No',
-    intereses: 'Administración, informática'
-  }
+  { id: 1, nombre: 'Ane', apellido: 'Gómez', dedicacion: 'Estudio', centro: 'Boluetabarri', sector: 'Hostalería' },
+  { id: 2, nombre: 'Iker', apellido: 'Martínez', dedicacion: 'Trabajo', centro: 'Boluetabarri', sector: 'Informática' },
+  { id: 3, nombre: 'Lorea', apellido: 'Ruiz', dedicacion: 'Estudio', centro: 'Montaño', sector: 'Hostalería' },
+  { id: 4, nombre: 'Jon', apellido: 'Sánchez', dedicacion: 'Trabajo', centro: 'Belategi', sector: 'Metal' }
 ])
+
 // Estado del formulario
 const selectedCentro = ref('')
 const selectedSector = ref('')
@@ -134,85 +90,51 @@ const resetSector = () => {
 
 <style scoped>
 .admin-dashboard {
-  max-width: 900px;
+  max-width: 800px;
   margin: 40px auto;
-  padding: 40px;
-  background: #f9fafb;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-h2, h3 {
-  color: rgb(5, 90, 12);
-  margin-bottom: 20px;
+  padding: 30px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 form {
   display: flex;
-  flex-wrap: wrap;
   gap: 20px;
+  flex-wrap: wrap;
   margin-bottom: 30px;
 }
 
 label {
   font-weight: 600;
-   color:;
-  margin-right: 8px;
+  margin-right: 5px;
 }
 
 select {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  background: #fff;
-  color: #111827;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-select:focus {
-  border-color: rgb(0, 141, 12);
-  outline: none;
-}
-
-.tabla-usuarios {
-  overflow-x: auto;
-  border-radius: 10px;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-}
-
-table {
+.tabla-usuarios table {
   width: 100%;
   border-collapse: collapse;
 }
 
-th, td {
-  padding: 14px 12px;
+.tabla-usuarios th,
+.tabla-usuarios td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
   text-align: left;
-  font-size: 15px;
 }
 
-th {
-  background-color: #eef2ff;
-  color:  rgb(0, 141, 12);
-  font-weight: 600;
-}
-
-tr:nth-child(even) {
-  background-color: #f9fafb;
-}
-
-tr:hover {
-  background-color: #e0e7ff;
+.tabla-usuarios th {
+  background-color: #f5f5f5;
 }
 
 .info {
-  color: #6b7280;
   font-style: italic;
-  margin-top: 20px;
+  color: #777;
 }
 </style>
 

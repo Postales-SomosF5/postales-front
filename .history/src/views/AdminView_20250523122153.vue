@@ -18,34 +18,22 @@
 
     <div v-if="usuariosFiltrados.length" class="tabla-usuarios">
       <h3>Usuarios - {{ selectedCentro }} / {{ selectedSector }}</h3>
-     <table>
-  <thead>
-    <tr>
-      <th>Seleccionar</th>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>Centro</th>
-      <th>Refuerzo lingüístico</th>
-      <th>Intereses</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
-         <td>
-        <input 
-          type="checkbox" 
-          :value="usuario.id" 
-          v-model="usuariosSeleccionados"
-        />
-      </td>
-      <td>{{ usuario.nombre }}</td>
-      <td>{{ usuario.apellido }}</td>
-      <td>{{ usuario.centro }}</td>
-      <td>{{ usuario.refuerzo }}</td>
-      <td>{{ usuario.intereses }}</td>
-    </tr>
-  </tbody>
-</table>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Dedicación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
+            <td>{{ usuario.nombre }}</td>
+            <td>{{ usuario.apellido }}</td>
+            <td>{{ usuario.dedicacion }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <p v-else class="info">Selecciona centro y sector para mostrar usuarios.</p>
@@ -71,47 +59,15 @@ const sectoresPorCentro = {
   Tolosa: [], Sarrikue: [], Markina: [], Errenteria: [],
   'Intervención Social Bizkaia': [], 'EPA Gipuzkoa': [], 'EPA Bizkaia': []
 }
-const usuariosSeleccionados = ref([])
 
 // Usuarios de ejemplo
 const usuarios = ref([
-  {
-    id: 1,
-    nombre: 'Ane',
-    apellido: 'Gómez',
-    centro: 'Boluetabarri',
-    sector: 'Modo - Comercio',
-    refuerzo: 'Sí',
-    intereses: 'Moda, ventas, comunicación'
-  },
-  {
-    id: 2,
-    nombre: 'Jon',
-    apellido: 'Sánchez',
-    centro: 'Montaño',
-    sector: 'Hostalería',
-    refuerzo: 'No',
-    intereses: 'Cocina, atención al cliente'
-  },
-  {
-    id: 3,
-    nombre: 'Lorea',
-    apellido: 'Ruiz',
-    centro: 'Belategi',
-    sector: 'Metal',
-    refuerzo: 'Sí',
-    intereses: 'Soldadura, maquinaria'
-  },
-  {
-    id: 4,
-    nombre: 'Ibai',
-    apellido: 'Etxeberria',
-    centro: 'Tolosa',
-    sector: '',
-    refuerzo: 'No',
-    intereses: 'Administración, informática'
-  }
+  { id: 1, nombre: 'Ane', apellido: 'Gómez', dedicacion: 'Estudio', centro: 'Boluetabarri', sector: 'Hostalería' },
+  { id: 2, nombre: 'Iker', apellido: 'Martínez', dedicacion: 'Trabajo', centro: 'Boluetabarri', sector: 'Informática' },
+  { id: 3, nombre: 'Lorea', apellido: 'Ruiz', dedicacion: 'Estudio', centro: 'Montaño', sector: 'Hostalería' },
+  { id: 4, nombre: 'Jon', apellido: 'Sánchez', dedicacion: 'Trabajo', centro: 'Belategi', sector: 'Metal' }
 ])
+
 // Estado del formulario
 const selectedCentro = ref('')
 const selectedSector = ref('')
@@ -144,7 +100,7 @@ const resetSector = () => {
 }
 
 h2, h3 {
-  color: rgb(5, 90, 12);
+  color: #1f2937;
   margin-bottom: 20px;
 }
 
@@ -157,7 +113,7 @@ form {
 
 label {
   font-weight: 600;
-   color:;
+  color: #374151;
   margin-right: 8px;
 }
 
@@ -172,7 +128,7 @@ select {
 }
 
 select:focus {
-  border-color: rgb(0, 141, 12);
+  border-color: #6366f1;
   outline: none;
 }
 
@@ -197,7 +153,7 @@ th, td {
 
 th {
   background-color: #eef2ff;
-  color:  rgb(0, 141, 12);
+  color: #4338ca;
   font-weight: 600;
 }
 

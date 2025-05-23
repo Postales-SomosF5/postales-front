@@ -21,7 +21,6 @@
      <table>
   <thead>
     <tr>
-      <th>Seleccionar</th>
       <th>Nombre</th>
       <th>Apellidos</th>
       <th>Centro</th>
@@ -31,13 +30,6 @@
   </thead>
   <tbody>
     <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
-         <td>
-        <input 
-          type="checkbox" 
-          :value="usuario.id" 
-          v-model="usuariosSeleccionados"
-        />
-      </td>
       <td>{{ usuario.nombre }}</td>
       <td>{{ usuario.apellido }}</td>
       <td>{{ usuario.centro }}</td>
@@ -71,47 +63,15 @@ const sectoresPorCentro = {
   Tolosa: [], Sarrikue: [], Markina: [], Errenteria: [],
   'Intervención Social Bizkaia': [], 'EPA Gipuzkoa': [], 'EPA Bizkaia': []
 }
-const usuariosSeleccionados = ref([])
 
 // Usuarios de ejemplo
 const usuarios = ref([
-  {
-    id: 1,
-    nombre: 'Ane',
-    apellido: 'Gómez',
-    centro: 'Boluetabarri',
-    sector: 'Modo - Comercio',
-    refuerzo: 'Sí',
-    intereses: 'Moda, ventas, comunicación'
-  },
-  {
-    id: 2,
-    nombre: 'Jon',
-    apellido: 'Sánchez',
-    centro: 'Montaño',
-    sector: 'Hostalería',
-    refuerzo: 'No',
-    intereses: 'Cocina, atención al cliente'
-  },
-  {
-    id: 3,
-    nombre: 'Lorea',
-    apellido: 'Ruiz',
-    centro: 'Belategi',
-    sector: 'Metal',
-    refuerzo: 'Sí',
-    intereses: 'Soldadura, maquinaria'
-  },
-  {
-    id: 4,
-    nombre: 'Ibai',
-    apellido: 'Etxeberria',
-    centro: 'Tolosa',
-    sector: '',
-    refuerzo: 'No',
-    intereses: 'Administración, informática'
-  }
+  { id: 1, nombre: 'Ane', apellido: 'Gómez', dedicacion: 'Estudio', centro: 'Boluetabarri', sector: 'Hostalería' },
+  { id: 2, nombre: 'Iker', apellido: 'Martínez', dedicacion: 'Trabajo', centro: 'Boluetabarri', sector: 'Informática' },
+  { id: 3, nombre: 'Lorea', apellido: 'Ruiz', dedicacion: 'Estudio', centro: 'Montaño', sector: 'Hostalería' },
+  { id: 4, nombre: 'Jon', apellido: 'Sánchez', dedicacion: 'Trabajo', centro: 'Belategi', sector: 'Metal' }
 ])
+
 // Estado del formulario
 const selectedCentro = ref('')
 const selectedSector = ref('')

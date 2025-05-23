@@ -21,7 +21,7 @@
      <table>
   <thead>
     <tr>
-      <th>Seleccionar</th>
+        
       <th>Nombre</th>
       <th>Apellidos</th>
       <th>Centro</th>

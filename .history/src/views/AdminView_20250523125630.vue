@@ -21,7 +21,6 @@
      <table>
   <thead>
     <tr>
-      <th>Seleccionar</th>
       <th>Nombre</th>
       <th>Apellidos</th>
       <th>Centro</th>
@@ -38,6 +37,7 @@
           v-model="usuariosSeleccionados"
         />
       </td>
+      <th>Seleccionar</th>
       <td>{{ usuario.nombre }}</td>
       <td>{{ usuario.apellido }}</td>
       <td>{{ usuario.centro }}</td>

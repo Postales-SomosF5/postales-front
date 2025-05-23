@@ -21,7 +21,6 @@
      <table>
   <thead>
     <tr>
-      <th>Seleccionar</th>
       <th>Nombre</th>
       <th>Apellidos</th>
       <th>Centro</th>
@@ -31,13 +30,6 @@
   </thead>
   <tbody>
     <tr v-for="usuario in usuariosFiltrados" :key="usuario.id">
-         <td>
-        <input 
-          type="checkbox" 
-          :value="usuario.id" 
-          v-model="usuariosSeleccionados"
-        />
-      </td>
       <td>{{ usuario.nombre }}</td>
       <td>{{ usuario.apellido }}</td>
       <td>{{ usuario.centro }}</td>

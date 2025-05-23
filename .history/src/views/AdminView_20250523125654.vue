@@ -20,8 +20,8 @@
       <h3>Usuarios - {{ selectedCentro }} / {{ selectedSector }}</h3>
      <table>
   <thead>
-    <tr>
-      <th>Seleccionar</th>
+    <tr
+
       <th>Nombre</th>
       <th>Apellidos</th>
       <th>Centro</th>
