@@ -4,7 +4,7 @@
       <UserFormView />
     </div>
     <div class="card">
-      <MatchData :match="datosMatch" />
+      <MatchData />
     </div>
   </div>
 </template>
@@ -12,14 +12,6 @@
 <script setup>
 import UserFormView from '@/views/UserFormView.vue'
 import MatchData from '@/components/MatchData.vue'
-
-const datosMatch = {
-  nombre: 'Ane',
-  apellido: 'Gómez',
-  dedicacion: 'Estudio',
-  centro: 'Boluetabarri / Hostalería',
-  linguistico: 'Sí',
-}
 </script>
 
 <style scoped>
@@ -27,19 +19,21 @@ const datosMatch = {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  gap: 40px;
-  padding: 60px 20px;
+  gap: 30px;
+  padding: 40px 20px;
   background-color: #f2f2f2;
+  min-height: 100vh;
 }
 
 .card {
-  max-height: 80vh;     
-  overflow-y: auto;      
+  background-color: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 420px;
   padding: 30px;
-  width: 400px;
+  box-sizing: border-box;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
+  /* No height fijo ni min-height */
 }
 </style>

@@ -35,11 +35,12 @@ const datosMatch = {
 .card {
   max-height: 80vh;     
   overflow-y: auto;      
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 1);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
   padding: 30px;
   width: 400px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column; /* importante para que se acomode verticalmente */
 }
 </style>

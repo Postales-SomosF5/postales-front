@@ -1,11 +1,11 @@
 <template>
   <div class="dashboard-container">
     <div class="card">
-      <UserFormView />
-    </div>
+    <UserFormView />
     <div class="card">
-      <MatchData :match="datosMatch" />
-    </div>
+    <MatchData :match="datosMatch" />
+  </div>  
+</div>
   </div>
 </template>
 
@@ -26,20 +26,20 @@ const datosMatch = {
 .dashboard-container {
   display: flex;
   justify-content: center;
-  align-items: stretch;
+  align-items: stretch; 
   gap: 40px;
   padding: 60px 20px;
   background-color: #f2f2f2;
+  min-height: 100vh;
 }
 
 .card {
-  max-height: 80vh;     
-  overflow-y: auto;      
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 1);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
   padding: 30px;
-  width: 400px;
+  width: 400px;     
   display: flex;
-  flex-direction: column; 
+  min-height: 600px;
 }
 </style>

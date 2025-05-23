@@ -33,13 +33,15 @@ const datosMatch = {
 }
 
 .card {
-  max-height: 80vh;     
-  overflow-y: auto;      
+  max-height: 80vh;      /* máximo 80% de la altura de la ventana */
+  overflow-y: auto;      /* si el contenido es más alto, aparecerá scroll vertical dentro de la card */
+  /* otras propiedades que ya tienes */
+  background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 1);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
   padding: 30px;
   width: 400px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column; /* importante para que se acomode verticalmente */
 }
 </style>

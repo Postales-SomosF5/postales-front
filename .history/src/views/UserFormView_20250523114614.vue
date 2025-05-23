@@ -105,6 +105,7 @@ const guardarCambios = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
   background-color: #f2f2f2;
 }
 .header-image {

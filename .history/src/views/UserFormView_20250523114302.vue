@@ -1,7 +1,7 @@
 <template>
   <div class="form-container">
     <div class="form-box">
-      <img :src="formImage" alt="Encabezado formulario" class="header-image" />
+      ç  <img :src="formImage" alt="Encabezado formulario" class="header-image" />
       <h2>Datos de Contacto</h2>
 
       <form @submit.prevent="guardarCambios">
@@ -105,6 +105,7 @@ const guardarCambios = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
   background-color: #f2f2f2;
 }
 .header-image {
@@ -115,6 +116,7 @@ const guardarCambios = () => {
   object-fit: cover;
 }
 .form-box {
+  background: white;
   padding: 40px 30px;
   border-radius: 12px;
   width: 400px;

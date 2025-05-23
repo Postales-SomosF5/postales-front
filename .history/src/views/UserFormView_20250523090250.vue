@@ -1,37 +1,24 @@
 <template>
   <div class="form-container">
     <div class="form-box">
-      <img :src="formImage" alt="Encabezado formulario" class="header-image" />
       <h2>Datos de Contacto</h2>
 
-      <form @submit.prevent="guardarCambios">
+      <form @submit.prevent="submitForm">
         <label for="nombre">Nombre</label>
-        <input
-          id="nombre"
-          v-model="form.nombre"
-          type="text"
-          placeholder="Nombre"
-          :disabled="!editable"
-        />
+        <input id="nombre" v-model="form.nombre" type="text" placeholder="Nombre" />
 
         <label for="apellido">Apellido</label>
-        <input
-          id="apellido"
-          v-model="form.apellido"
-          type="text"
-          placeholder="Apellido"
-          :disabled="!editable"
-        />
+        <input id="apellido" v-model="form.apellido" type="text" placeholder="Apellido" />
 
         <label for="dedicacion">¿A qué te dedicas en Peñascal Kooperatiba?</label>
-        <select id="dedicacion" v-model="form.dedicacion" :disabled="!editable">
+        <select id="dedicacion" v-model="form.dedicacion">
           <option disabled value="">Selecciona una opción</option>
           <option>Estudio</option>
           <option>Trabajo</option>
         </select>
 
         <label for="centro">¿En qué centro formativo sueles estar?</label>
-        <select id="centro" v-model="form.centro" :disabled="!editable">
+        <select id="centro" v-model="form.centro">
           <option disabled value="">Selecciona un centro</option>
           <option>Boluetabarri / Modo - Comercio</option>
           <option>Boluetabarri / Informática</option>
@@ -53,33 +40,25 @@
         </select>
 
         <label for="linguistico">¿Perteneces a un grupo de refuerzo lingüístico?</label>
-        <select id="linguistico" v-model="form.linguistico" :disabled="!editable">
+        <select id="linguistico" v-model="form.linguistico">
           <option disabled value="">Selecciona una opción</option>
           <option>Sí</option>
           <option>No</option>
         </select>
 
-        <div class="botones">
-          <button
-            v-if="!editable"
-            type="button"
-            class="editar-btn"
-            @click="editar"
-          >
-            Editar
-          </button>
-          <button v-else type="submit" class="guardar-btn">Guardar cambios</button>
-        </div>
+        <button type="submit" class="registro-btn">Registrar</button>
       </form>
+
+      <p class="switch-text">
+        ¿Ya tienes cuenta?
+        <a href="#">Login</a>
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import formImage from '@/assets/img/cartas.png'
 import { ref } from 'vue'
-
-const editable = ref(false)
 
 const form = ref({
   nombre: '',
@@ -89,14 +68,16 @@ const form = ref({
   linguistico: '',
 })
 
-const editar = () => {
-  editable.value = true
-}
+const submitForm = () => {
+  console.log('Datos del formulario:', form.value)
 
-const guardarCambios = () => {
-  editable.value = false
-  console.log('Datos guardados:', form.value)
-  // Aquí puedes hacer llamadas a API o guardar los datos donde quieras
+  form.value = {
+    nombre: '',
+    apellido: '',
+    dedicacion: '',
+    centro: '',
+    linguistico: '',
+  }
 }
 </script>
 
@@ -105,16 +86,12 @@ const guardarCambios = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
   background-color: #f2f2f2;
 }
-.header-image {
-  width: 100%;
-  height: auto;
-  border-radius: 12px 12px 0 0;
-  margin-bottom: 20px;
-  object-fit: cover;
-}
+
 .form-box {
+  background: white;
   padding: 40px 30px;
   border-radius: 12px;
   width: 400px;
@@ -141,45 +118,63 @@ const guardarCambios = () => {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-box input:disabled,
-.form-box select:disabled {
-  background-color: #e9ecef;
-  cursor: not-allowed;
-}
-
-.form-box input:hover:enabled,
-.form-box select:hover:enabled {
+.form-box input:hover,
+.form-box select:hover {
   border-color: #28a745;
 }
 
-.form-box input:focus:enabled,
-.form-box select:focus:enabled {
+.form-box input:focus,
+.form-box select:focus {
   border-color: #fd7e14;
   box-shadow: 0 0 5px #fd7e14;
   outline: none;
 }
 
-.botones {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.editar-btn,
-.guardar-btn {
+.registro-btn {
   background-color: #fd7e14;
   color: white;
-  padding: 10px 20px;
+  padding: 10px;
+  width: 100%;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  margin-top: 20px;
   font-size: 16px;
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
 
-.editar-btn:hover,
-.guardar-btn:hover {
+.registro-btn:hover {
   background-color: #e95f00;
+}
+
+.switch-text {
+  margin-top: 25px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+}
+
+.switch-text a {
+  color: #fd7e14;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 5px;
+  transition: color 0.3s ease;
+}
+
+.switch-text a:hover {
+  color: #337442;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 </style>
