@@ -4,8 +4,7 @@
       <UserFormView />
     </div>
     <div class="card">
-      <MatchData v-if="datosMatch" :match="datosMatch" />
-      <p v-else>Cargando datos...</p>
+      <MatchData :match="datosMatch" />
     </div>
   </div>
 </template>

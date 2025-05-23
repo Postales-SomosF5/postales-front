@@ -53,68 +53,83 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
-import axios from 'axios'
+import { ref, computed } from 'vue'
 
+// Centros disponibles
 const centros = [
   'Boluetabarri', 'Montaño', 'Belategi', 'Tolosa', 'Sarrikue',
   'Markina', 'Errenteria', 'Intervención Social Bizkaia',
   'EPA Gipuzkoa', 'EPA Bizkaia'
 ]
 
+// Sectores por centro
 const sectoresPorCentro = {
   Boluetabarri: ['Modo - Comercio', 'Informática', 'Climatización - Fontanería', 'Madera', 'Hostalería', 'Administración', 'Complementaria'],
   Montaño: ['Hostalería', 'Construcción - Electricidad'],
   Belategi: ['Metal'],
+  // Otros centros con sectores vacíos
   Tolosa: [], Sarrikue: [], Markina: [], Errenteria: [],
   'Intervención Social Bizkaia': [], 'EPA Gipuzkoa': [], 'EPA Bizkaia': []
 }
-
-const usuarios = ref([])
 const usuariosSeleccionados = ref([])
 
+// Usuarios de ejemplo
+const usuarios = ref([
+  {
+    id: 1,
+    nombre: 'Ane',
+    apellido: 'Gómez',
+    centro: 'Boluetabarri',
+    sector: 'Modo - Comercio',
+    refuerzo: 'Sí',
+    intereses: 'Moda, ventas, comunicación'
+  },
+  {
+    id: 2,
+    nombre: 'Jon',
+    apellido: 'Sánchez',
+    centro: 'Montaño',
+    sector: 'Hostalería',
+    refuerzo: 'No',
+    intereses: 'Cocina, atención al cliente'
+  },
+  {
+    id: 3,
+    nombre: 'Lorea',
+    apellido: 'Ruiz',
+    centro: 'Belategi',
+    sector: 'Metal',
+    refuerzo: 'Sí',
+    intereses: 'Soldadura, maquinaria'
+  },
+  {
+    id: 4,
+    nombre: 'Ibai',
+    apellido: 'Etxeberria',
+    centro: 'Tolosa',
+    sector: '',
+    refuerzo: 'No',
+    intereses: 'Administración, informática'
+  }
+])
+// Estado del formulario
 const selectedCentro = ref('')
 const selectedSector = ref('')
 
+// Sectores según centro seleccionado
 const sectoresFiltrados = computed(() => {
   return selectedCentro.value ? sectoresPorCentro[selectedCentro.value] || [] : []
 })
 
+// Lista de usuarios filtrados
 const usuariosFiltrados = computed(() => {
-  return usuarios.value.filter(
-    u => u.centro === selectedCentro.value && u.sector === selectedSector.value
-  )
+  if (!selectedCentro.value || !selectedSector.value) return []
+  return usuarios.value.filter(u => u.centro === selectedCentro.value && u.sector === selectedSector.value)
 })
 
 const resetSector = () => {
   selectedSector.value = ''
-  usuariosSeleccionados.value = []
 }
-
-// Cargar usuarios desde API cuando cambia centro o sector
-const cargarUsuarios = async () => {
-  if (!selectedCentro.value || !selectedSector.value) {
-    usuarios.value = []
-    return
-  }
-  try {
-    const { data } = await axios.get('/api/usuarios', {
-      params: { centro: selectedCentro.value, sector: selectedSector.value }
-    })
-    usuarios.value = data
-    usuariosSeleccionados.value = []
-  } catch (error) {
-    console.error('Error al cargar usuarios:', error)
-  }
-}
-
-watch([selectedCentro, selectedSector], () => {
-  cargarUsuarios()
-})
-
-onMounted(() => {
-  // Opcional: cargar todos o inicializar
-})
 </script>
 
 <style scoped>
@@ -141,7 +156,7 @@ form {
 }
 
 label {
-  font-weight: 600;
+  font-weight: 600,
   margin-right: 8px;
 }
 
