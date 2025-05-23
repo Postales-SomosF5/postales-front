@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <script setup>
 
 import Footer from './components/Footer.vue'
@@ -6,11 +7,14 @@ import Navbar from './components/Navbar.vue'
 
 </script>
 
+=======
+>>>>>>> origin/main
 <template>
-   <Footer />
-   <Navbar />
+  <router-view />
 </template>
 
-<style scoped>
-
-</style>
+<script>
+export default {
+  name: 'App',
+}
+</script>
