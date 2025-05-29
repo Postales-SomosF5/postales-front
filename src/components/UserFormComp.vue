@@ -188,38 +188,62 @@ const cargarDatosSelect = async () => {
 const guardarCambios = async () => {
   try {
     console.log('Datos enviados:', form.value);
-
-    // Construir el endpoint y método según el modo
     const endpoint = modo.value === 'registro' ? '/api/auth/register' : `/api/usuarios/${authStore.user.usuario_id || authStore.user.id}`;
     const method = modo.value === 'registro' ? 'post' : 'patch';
 
-    // Realizar la solicitud al backend
-    const response = await axios({
-      method,
-      url: `${import.meta.env.VITE_API_BASE_URL}${endpoint}`,
-      data: form.value,
-    });
-
-    console.log('Respuesta del servidor:', response.data);
-    editable.value = false;
-    alert(modo.value === 'registro' ? 'Registro exitoso.' : 'Datos guardados correctamente.');
-
     if (modo.value === 'registro') {
-      // Guardar usuario en Pinia y sessionStorage tras registro
+      // Asegurar que rol_id sea un número válido
+      if (!form.value.rol_id || form.value.rol_id === '') {
+        form.value.rol_id = 2; // Usuario normal por defecto
+      } else {
+        form.value.rol_id = Number(form.value.rol_id);
+      }
+      const response = await axios({
+        method,
+        url: `${import.meta.env.VITE_API_BASE_URL}${endpoint}`,
+        data: form.value
+      });
+      console.log('Respuesta del servidor:', response.data);
+      const token = response.data.token || response.data.access_token;
+      if (!token) {
+        console.error('Token faltante en la respuesta del servidor:', response.data);
+        alert('Error en el registro. Por favor, inténtalo de nuevo.');
+        return;
+      }
       const userData = {
         ...response.data,
         email: form.value.email,
         nombre: form.value.nombre,
         apellido: form.value.apellido,
-        rol_id: 2,
+        rol_id: response.data.rol || 2,
+        usuario_id: response.data.usuario_id,
       };
-      authStore.user = userData;
-      authStore.isAuthenticated = true;
-      sessionStorage.setItem('user', JSON.stringify(userData));
+      authStore.setAuthData(userData, token);
+      sessionStorage.setItem('authToken', token);
+      alert('Registro exitoso.');
       router.push('/dashboard');
+      return;
     }
+
+    // Actualización: SÍ necesitas token
+    const token = authStore.token || sessionStorage.getItem('authToken');
+    if (!token) {
+      console.error('Token faltante. No se puede realizar la solicitud.');
+      alert('Error de autenticación. Por favor, inicia sesión nuevamente.');
+      return;
+    }
+    const response = await axios({
+      method,
+      url: `${import.meta.env.VITE_API_BASE_URL}${endpoint}`,
+      data: form.value,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    editable.value = false;
+    alert('Datos guardados correctamente.');
   } catch (error) {
-    console.error('Error al guardar:', error.response?.data || error.message);
+    console.error('Error al guardar:', error.response && error.response.data ? error.response.data : error.message);
     alert('Error guardando datos. Por favor, revisa los datos e inténtalo de nuevo.');
   }
 };

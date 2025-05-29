@@ -18,8 +18,11 @@ const routes = [
       { path: 'admin', name: 'admin', component: AdminView, meta: { requiresAuth: true } },
       { path: 'register', name: 'Register', component: RegisterView},
       { path: 'info', name: 'info', component: InfoView},
-      
-
+      {
+        path: 'login',
+        name: 'login',
+        component: () => import('@/components/LoginComp.vue'),
+      },
     ]
   }
 ];

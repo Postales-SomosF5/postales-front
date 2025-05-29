@@ -6,10 +6,12 @@ import { useApi } from '@/composables/useApi.js'
 export const useAuthStore = defineStore('auth', () => {
 
   const user = ref(null)
+  const token = ref(null)
   const isAuthenticated = ref(false)
 
   // Cargar el estado del usuario desde sessionStorage
   const storedUser = sessionStorage.getItem('user');
+  const storedToken = sessionStorage.getItem('token');
   if (storedUser) {
     try {
       const parsedUser = JSON.parse(storedUser);
@@ -22,6 +24,9 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (error) {
       console.error('Error al parsear el usuario almacenado:', error);
     }
+  }
+  if (storedToken) {
+    token.value = storedToken;
   }
 
   // Función para login
@@ -52,17 +57,29 @@ export const useAuthStore = defineStore('auth', () => {
   // Función para registro
   async function register(name, email, password) {
     try {
-      const { fetchData, postData } = useApi();
-      const response = await fetchData(`/api/usuarios?email=${email}`); // Ajustar al endpoint correcto
-      if (response.data.length > 0) {
-        throw new Error('El usuario ya existe');
+      const { postData } = useApi();
+
+      // Realizar el registro en el backend
+      const response = await postData('/api/auth/register', { name, email, password });
+      console.log('Respuesta del registro:', response.data);
+
+      // Verificar si el token está presente en la respuesta
+      const token = response.data.token;
+      if (!token) {
+        throw new Error('Token faltante en la respuesta del servidor.');
       }
 
-      const newUser = { name, email, password };
-      await postData('/api/usuarios', newUser); // Ajustar al endpoint correcto
-      user.value = newUser;
+      // Guardar usuario y token en el estado y en sessionStorage
+      const userData = {
+        ...response.data,
+        rol_id: response.data.rol, // Mapear "rol" a "rol_id"
+      };
+      user.value = userData;
+      token.value = token;
       isAuthenticated.value = true;
-      sessionStorage.setItem('user', JSON.stringify(newUser));
+      sessionStorage.setItem('user', JSON.stringify(userData));
+      sessionStorage.setItem('token', token);
+
       return true;
     } catch (error) {
       console.error('Error de registro:', error);
@@ -84,12 +101,44 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  // Función para guardar datos de autenticación
+  function setAuthData(userData, authToken) {
+    if (!userData || !authToken) {
+      console.error('Datos de autenticación inválidos:', { userData, authToken });
+      return;
+    }
+    console.log('Guardando datos de autenticación:', { userData, authToken });
+    user.value = userData;
+    token.value = authToken;
+    isAuthenticated.value = true;
+    sessionStorage.setItem('user', JSON.stringify(userData));
+    sessionStorage.setItem('token', authToken);
+    sessionStorage.setItem('authToken', authToken); // Para compatibilidad con el resto del frontend
+    console.log('Datos guardados en sessionStorage:', {
+      user: sessionStorage.getItem('user'),
+      token: sessionStorage.getItem('token'),
+      authToken: sessionStorage.getItem('authToken'),
+    });
+  }
+
+  // Función para limpiar datos de autenticación
+  function clearAuthData() {
+    user.value = null;
+    token.value = null;
+    isAuthenticated.value = false;
+
+    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('token');
+  }
+
   function logout() {
     user.value = null
+    token.value = null
     isAuthenticated.value = false
     sessionStorage.removeItem('user')
+    sessionStorage.removeItem('token')
   }
 
   // Exponemos lo que queremos que otros usen
-  return { user, isAuthenticated, login, register, updateProfile, logout }
+  return { user, token, isAuthenticated, login, register, updateProfile, logout, setAuthData, clearAuthData }
 })
