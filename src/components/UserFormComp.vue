@@ -130,9 +130,23 @@ const cargarDatosUsuario = async () => {
       console.error('No se encontró usuario_id en el store de auth');
       return;
     }
+
+    // Construir URL completa para la solicitud
+    const url = `${import.meta.env.VITE_API_BASE_URL}/api/usuarios/${usuario_id}`;
+    console.log('URL de la solicitud:', url); // <-- DEBUG
+
     // Petición al endpoint de usuario concreto
-    const { data } = await axios.get(`/api/usuarios/${usuario_id}`);
+    const { data } = await axios.get(url);
+
+    // Verificar si la respuesta es válida
+    if (typeof data !== 'object' || Array.isArray(data)) {
+      console.error('Respuesta inválida del backend:', data);
+      alert('Error al cargar los datos del usuario. Por favor, inténtalo más tarde.');
+      return;
+    }
+
     console.log('Datos usuario backend:', data); // <-- DEBUG
+
     // Rellenar el formulario con los datos del usuario, asegurando tipos y valores válidos
     form.value = {
       ...form.value,
@@ -145,11 +159,13 @@ const cargarDatosUsuario = async () => {
       rol_id: data.rol_id ?? '',
       contrasena: '', // nunca mostrar la contraseña
     };
+
     console.log('Formulario tras cargar usuario:', form.value); // <-- DEBUG
   } catch (error) {
-    console.error('Error al cargar datos:', error)
+    console.error('Error al cargar datos:', error);
+    alert('Error al cargar los datos del usuario. Por favor, revisa tu conexión e inténtalo de nuevo.');
   }
-}
+};
 
 const cargarDatosSelect = async () => {
   try {
@@ -172,14 +188,22 @@ const cargarDatosSelect = async () => {
 const guardarCambios = async () => {
   try {
     console.log('Datos enviados:', form.value);
-    if (modo.value === 'registro') {
-      form.value.rol_id = 2; // Asignar siempre el rol de usuario
-    }
-    const endpoint = modo.value === 'registro' ? '/api/auth/register' : '/api/usuarios';
-    const response = await postData(endpoint, form.value);
+
+    // Construir el endpoint y método según el modo
+    const endpoint = modo.value === 'registro' ? '/api/auth/register' : `/api/usuarios/${authStore.user.usuario_id || authStore.user.id}`;
+    const method = modo.value === 'registro' ? 'post' : 'patch';
+
+    // Realizar la solicitud al backend
+    const response = await axios({
+      method,
+      url: `${import.meta.env.VITE_API_BASE_URL}${endpoint}`,
+      data: form.value,
+    });
+
     console.log('Respuesta del servidor:', response.data);
     editable.value = false;
     alert(modo.value === 'registro' ? 'Registro exitoso.' : 'Datos guardados correctamente.');
+
     if (modo.value === 'registro') {
       // Guardar usuario en Pinia y sessionStorage tras registro
       const userData = {
@@ -198,7 +222,7 @@ const guardarCambios = async () => {
     console.error('Error al guardar:', error.response?.data || error.message);
     alert('Error guardando datos. Por favor, revisa los datos e inténtalo de nuevo.');
   }
-}
+};
 
 const editar = () => {
   editable.value = true
