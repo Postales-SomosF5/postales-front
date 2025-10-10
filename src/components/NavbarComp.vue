@@ -255,7 +255,7 @@ function handleLogout() {
 
 .login-btn:hover {
   background-color: transparent;
-  color: #337442;
+  color: white;
   border-color: #28a745;
 }
 
@@ -301,6 +301,7 @@ function handleLogout() {
   width: 100%;
   padding: 10px;
   margin: 10px 0;
+  background-color: white;
   border-radius: 6px;
   border: 1px solid #ccc;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;

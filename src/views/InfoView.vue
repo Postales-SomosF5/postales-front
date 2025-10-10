@@ -168,7 +168,7 @@
 
 /* Participantes */
 .participant-block {
-  display: grid;
+  display: block;
   grid-template-columns: 1fr;
   gap: 15px;
   background-color: #fff;

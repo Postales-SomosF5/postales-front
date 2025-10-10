@@ -3,7 +3,7 @@
     <div class="img-hero"></div>
     <div class="text-hero">
       <h1>
-        {{ $t('home-bienvenido-a') }} <span class="logo-texto">Cadena de Postales</span>
+        {{ $t('home-bienvenido-a') }} <span class="logo-texto"></span>
       </h1>
       <img src="@/assets/img/logotipo-negro.png" alt="Logotipo Cadena de Postales" />
       <p class="subheading">{{ $t('home-practica-intro') }}</p>
@@ -72,7 +72,8 @@
 }
 
 .participation-button:hover {
-  background-color: #2cda43;
+  background-color: #337442;
+  transform: scale(1.05);
   cursor: pointer;
 }
 
